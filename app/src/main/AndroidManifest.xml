@@ -17,8 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewsArticleActivity"
-            android:label="To Do Items"
+        <activity android:name=".SecondActivity"
+            android:label="Search and saved itemd"
+            />
+        <activity android:name=".SearchListActivity"
+            android:label="List with articles based on search"
             />
     </application>
 

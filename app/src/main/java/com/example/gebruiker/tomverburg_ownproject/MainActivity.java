@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Buttons
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    Intent getNameScreen = new Intent(getApplicationContext(), NewsArticleActivity.class);
+                    Intent getNameScreen = new Intent(getApplicationContext(), SecondActivity.class);
                     startActivity(getNameScreen);
                 } else {
                     // User is signed out
@@ -159,12 +158,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mStatusTextView.setText(getString(R.string.emailpassword_status_fmt, user.getEmail()));
             mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
 
-            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
         } else {
             mStatusTextView.setText(R.string.signed_out);
             mDetailTextView.setText(null);
-
-            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
     }
 
@@ -175,8 +171,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
         } else if (i == R.id.email_sign_in_button) {
             signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
-        } else if (i == R.id.sign_out_button) {
-            signOut();
         }
     }
 }
