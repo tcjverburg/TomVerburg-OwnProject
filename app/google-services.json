@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "809549501459",
+    "firebase_url": "https://the-guardian-article-searcher.firebaseio.com",
+    "project_id": "the-guardian-article-searcher",
+    "storage_bucket": "the-guardian-article-searcher.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809549501459:android:0f10ca0ead7c4e1f",
+        "android_client_info": {
+          "package_name": "com.example.gebruiker.tomverburg_ownproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "809549501459-30cdrgdgh3ie6b6cjtdh439tnpm0a61i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gebruiker.tomverburg_ownproject",
+            "certificate_hash": "1499053C3EC9345299235953EEAE4A53778FDFA9"
+          }
+        },
+        {
+          "client_id": "809549501459-ja3k1mplelhias9vq9ir89ekqipei9r2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUbDfpdOVlCDfaw7ObXg5dPGJR-O33L08"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "809549501459-ja3k1mplelhias9vq9ir89ekqipei9r2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

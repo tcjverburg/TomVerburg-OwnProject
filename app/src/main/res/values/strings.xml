@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TomVerburg-OwnProject</string>
+    <string name="signed_in_fmt">Signed In</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="sign_in">sign in</string>
+    <string name="create_account">create account</string>
+    <string name="sign_out">sign out</string>
+    <string name="emailpassword_status_fmt">email password  status</string>
+    <string name="firebase_status_fmt">firebase status</string>
+</resources>
