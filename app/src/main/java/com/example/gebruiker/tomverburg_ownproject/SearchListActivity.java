@@ -46,6 +46,7 @@ public class SearchListActivity extends Activity {
         url = "https://content.guardianapis.com/search?q=" + query + "&api-key=828ceb77-f98a-4d04-9912-9a626d996386";
         new JSONTask().execute(url);
         theListView = (ListView) findViewById(R.id.searchListView);
+
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -53,6 +54,7 @@ public class SearchListActivity extends Activity {
                 goToUrl(urls.get(position));
             }
         });
+
         theListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
@@ -145,7 +147,7 @@ public class SearchListActivity extends Activity {
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(title, url);
         editor.commit();
-        Toast.makeText(SearchListActivity.this, "You have added " + title + " to your favourites!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SearchListActivity.this, "You have added " + title + " to your favorites!", Toast.LENGTH_SHORT).show();
     }
 }
 

@@ -1,7 +1,9 @@
 package com.example.gebruiker.tomverburg_ownproject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +35,7 @@ public class Favorites extends Activity {
         reader();
         adapter();
         clickDeleteItem();
+        clickSelectFavorite();
     }
 
     public void reader(){
@@ -64,6 +67,22 @@ public class Favorites extends Activity {
                 return true;
             }
         });
+    }
+
+    public void clickSelectFavorite() {
+        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                goToUrl(urls.get(position));
+            }
+        });
+    }
+
+    private void goToUrl(String url) {
+        Uri uriUrl = Uri.parse(url);
+        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+        startActivity(launchBrowser);
     }
 
 }
