@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // [END_EXCLUDE]
             }
         };
+
         // [END auth_state_listener]
     }
 

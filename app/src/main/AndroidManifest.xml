@@ -23,6 +23,12 @@
         <activity android:name=".SearchListActivity"
             android:label="List with articles based on search"
             />
+        <activity android:name=".Favorites"
+            android:label="Favorites"
+            />
+        <activity android:name=".History"
+            android:label="History"
+            />
     </application>
 
 </manifest>

@@ -7,10 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 /**
@@ -18,27 +19,25 @@ import com.google.firebase.auth.FirebaseUser;
  */
 
 public class SecondActivity extends AppCompatActivity {
-    // [START declare_auth]
     private FirebaseAuth mAuth;
-    // [END declare_auth]
     private static final String TAG = "SecondActivity";
-    // [START declare_auth_listener]
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private TextView textView;
     private EditText editText;
-
-
-
+    private FirebaseUser user;
+    private DatabaseReference myRef;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-        textView = (TextView) findViewById(R.id.article);
         editText = (EditText)findViewById(R.id.search_article);
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference(user.getUid().toString()).child("search_history");
+
         // [END initialize_auth]
         editText = (EditText)findViewById(R.id.search_article);
 
@@ -46,7 +45,6 @@ public class SecondActivity extends AppCompatActivity {
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
@@ -55,12 +53,9 @@ public class SecondActivity extends AppCompatActivity {
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
-                    textView.setText("niet ingelogd");
                     Intent getNameScreen = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(getNameScreen);
                 }
-                // [START_EXCLUDE]
-                // [END_EXCLUDE]
             }
         };
 
@@ -71,9 +66,7 @@ public class SecondActivity extends AppCompatActivity {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
-    // [END on_start_add_listener]
 
-    // [START on_stop_remove_listener]
     @Override
     public void onStop() {
         super.onStop();
@@ -81,19 +74,33 @@ public class SecondActivity extends AppCompatActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
     private void signOut() {
         mAuth.signOut();
     }
 
     public void signOutButton(View v) {
         signOut();
+        Intent getNameScreen = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(getNameScreen);
     }
+
     public void searchButton(View v){
         Intent getNameScreen = new Intent(getApplicationContext(),SearchListActivity.class);
         String query= String.valueOf(editText.getText());
-        query.replace(" ", "");
+        myRef.child(query).setValue(query);
+        query = query.replaceAll(" ", "%20");
         getNameScreen.putExtra("query", query);
         startActivity(getNameScreen);
+    }
 
+    public void favoritesButton(View v){
+        Intent getNameScreen = new Intent(getApplicationContext(),Favorites.class);
+        startActivity(getNameScreen);
+    }
+
+    public void historyButton(View v){
+        Intent getNameScreen = new Intent(getApplicationContext(),History.class);
+        startActivity(getNameScreen);
     }
 }

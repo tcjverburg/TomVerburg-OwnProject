@@ -2,11 +2,11 @@ package com.example.gebruiker.tomverburg_ownproject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -31,11 +31,12 @@ import java.util.ArrayList;
  */
 
 public class SearchListActivity extends Activity {
-    private ArrayList<String> articles =new ArrayList<>();
-    private ArrayList<String> urls =new ArrayList<>();
-    private Adapter theAdapter;
+    private ArrayList<String> articles = new ArrayList<>();
+    private ArrayList<String> urls = new ArrayList<>();
+    private ListAdapter theAdapter;
     private ListView theListView;
     private String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,20 +44,27 @@ public class SearchListActivity extends Activity {
         Intent activityThatCalled = getIntent();
         String query = activityThatCalled.getExtras().getString("query");
         url = "https://content.guardianapis.com/search?q=" + query + "&api-key=828ceb77-f98a-4d04-9912-9a626d996386";
-        Toast.makeText(SearchListActivity.this, query,
-                Toast.LENGTH_SHORT).show();
         new JSONTask().execute(url);
-
-        theListView = (ListView)findViewById(R.id.searchListView);
-
+        theListView = (ListView) findViewById(R.id.searchListView);
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 goToUrl(urls.get(position));
+            }
+        });
+        theListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String title = String.valueOf(adapterView.getItemAtPosition(position));
+                String url = urls.get(position);
+                persistence(title, url);
+                return true;
             }
         });
     }
+
     public class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -69,13 +77,9 @@ public class SearchListActivity extends Activity {
                 URL url = new URL(params[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
-
                 InputStream stream = connection.getInputStream();
-
                 reader = new BufferedReader(new InputStreamReader(stream));
-
                 StringBuffer buffer = new StringBuffer();
-
                 String line = "";
 
                 //adds line by line to the buffer from the api
@@ -99,10 +103,10 @@ public class SearchListActivity extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
             return null;
         }
+
         //filters the string we got as a result of the method getting the information from the api
         @Override
         protected void onPostExecute(String result) {
@@ -123,23 +127,25 @@ public class SearchListActivity extends Activity {
             }
             adapter();
         }
-
     }
-    public void adapter(){
-        ListAdapter theAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,  articles);
+
+    public void adapter() {
+        theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, articles);
         theListView.setAdapter(theAdapter);
     }
 
-    private void goToUrl (String url) {
+    private void goToUrl(String url) {
         Uri uriUrl = Uri.parse(url);
         Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
         startActivity(launchBrowser);
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
+    public void persistence(String title, String url) {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(title, url);
+        editor.commit();
+        Toast.makeText(SearchListActivity.this, "You have added " + title + " to your favourites!", Toast.LENGTH_SHORT).show();
     }
 }
 
