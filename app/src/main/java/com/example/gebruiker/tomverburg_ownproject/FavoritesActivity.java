@@ -16,10 +16,14 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * Created by Gebruiker on 20-10-2016.
+ * FavoritesActivity.java
+ * TomVerburg-OwnProject
+ *
+ * Activity which shows all the favorite articles you have added. By selecting them,
+ * you can read them again.
  */
 
-public class Favorites extends Activity {
+public class FavoritesActivity extends Activity {
     private ArrayList<String> titles = new ArrayList<String>();
     private ArrayList<String> urls = new ArrayList<String>();
     private SharedPreferences pref;
@@ -61,7 +65,7 @@ public class Favorites extends Activity {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.remove(title);
                 editor.commit();
-                Toast.makeText(Favorites.this, "You have removed " + title + " from your favorites", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FavoritesActivity.this, "You have removed " + title + " from your favorites", Toast.LENGTH_SHORT).show();
                 reader();
                 adapter();
                 return true;

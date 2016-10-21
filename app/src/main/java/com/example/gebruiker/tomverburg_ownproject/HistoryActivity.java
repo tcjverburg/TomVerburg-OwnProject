@@ -20,10 +20,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 /**
- * Created by Gebruiker on 20-10-2016.
+ * HistoryAc.java
+ * TomVerburg-OwnProject
+ *
+ * Activity which shows all the other users which use this application. By clicking
+ * on a specific user, you will get to see their search history.
  */
 
-public class History extends Activity {
+public class HistoryActivity extends Activity {
     private ListView theListView;
     private DatabaseReference myRef;
 

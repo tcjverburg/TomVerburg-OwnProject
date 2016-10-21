@@ -17,16 +17,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity"
+        <activity android:name=".MenuActivity"
             android:label="Search and saved itemd"
             />
         <activity android:name=".SearchListActivity"
             android:label="List with articles based on search"
             />
-        <activity android:name=".Favorites"
+        <activity android:name=".FavoritesActivity"
             android:label="Favorites"
             />
-        <activity android:name=".History"
+        <activity android:name=".HistoryActivity"
             android:label="History"
             />
         <activity android:name=".OtherUsersActivity"

@@ -27,7 +27,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by Gebruiker on 19-10-2016.
+ * SearchListActivity.java
+ * TomVerburg-OwnProject
+ *
+ * Activity which shows all the result of the search of the user. By clicking
+ * you are able to read the selected article. By long clicking you save the article
+ * to your favorites.
  */
 
 public class SearchListActivity extends Activity {

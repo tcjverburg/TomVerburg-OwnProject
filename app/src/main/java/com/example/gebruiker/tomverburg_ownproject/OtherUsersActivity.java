@@ -18,7 +18,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 /**
- * Created by Gebruiker on 21-10-2016.
+ * OtherUsersActivity.java
+ * TomVerburg-OwnProject
+ *
+ * Activity which shows all the other users which use this application. By clicking
+ * on a specific user, you will get to see their search history.
  */
 
 public class OtherUsersActivity extends Activity {
@@ -63,7 +67,7 @@ public class OtherUsersActivity extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Intent getNameScreen = new Intent(getApplicationContext(),History.class);
+                Intent getNameScreen = new Intent(getApplicationContext(),HistoryActivity.class);
                 getNameScreen.putExtra("userUid", listHistory.get(position));
                 startActivity(getNameScreen);
                 finish();

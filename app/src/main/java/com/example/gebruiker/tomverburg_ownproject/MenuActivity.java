@@ -15,12 +15,16 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 /**
- * Created by Gebruiker on 19-10-2016.
+ * MenuActivity.java
+ * TomVerburg-OwnProject
+ *
+ * Activity which shows all the options the application has to offer.
+ * This is the main menu of the application.
  */
 
-public class SecondActivity extends Activity {
+public class MenuActivity extends Activity {
     private FirebaseAuth mAuth;
-    private static final String TAG = "SecondActivity";
+    private static final String TAG = "MenuActivity";
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText editText;
     private FirebaseUser user;
@@ -29,7 +33,7 @@ public class SecondActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_second);
+        setContentView(R.layout.activity_menu);
         editText = (EditText)findViewById(R.id.search_article);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -93,12 +97,12 @@ public class SecondActivity extends Activity {
     }
 
     public void favoritesButton(View v){
-        Intent getNameScreen = new Intent(getApplicationContext(),Favorites.class);
+        Intent getNameScreen = new Intent(getApplicationContext(),FavoritesActivity.class);
         startActivity(getNameScreen);
     }
 
     public void historyButton(View v){
-        Intent getNameScreen = new Intent(getApplicationContext(),History.class);
+        Intent getNameScreen = new Intent(getApplicationContext(),HistoryActivity.class);
         getNameScreen.putExtra("userUid", user.getUid());
         startActivity(getNameScreen);
     }

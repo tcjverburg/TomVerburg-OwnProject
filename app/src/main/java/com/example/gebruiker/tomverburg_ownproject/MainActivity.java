@@ -17,6 +17,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * MainActivity.java
+ * TomVerburg-OwnProject
+ *
+ * Starting activity in which the user has to login or create a new account
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     String name = user.getEmail().split("@")[0].replaceAll("^[^a-zA-Z0-9\\s]+|[^a-zA-Z0-9\\s]+$", "");;
                     myRef.child(name).setValue(user.getUid());
-                    Intent getNameScreen = new Intent(getApplicationContext(), SecondActivity.class);
+                    Intent getNameScreen = new Intent(getApplicationContext(), MenuActivity.class);
                     startActivity(getNameScreen);
                     finish();
                 } else {
