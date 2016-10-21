@@ -21,7 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
  * MainActivity.java
  * TomVerburg-OwnProject
  *
- * Starting activity in which the user has to login or create a new account
+ * Starting activity in which the user has to login or create a new account.
+ *
+ * source:https://github.com/firebase/quickstart-android/blob/master/auth/app/src/main/java/com/
+ * google/firebase/quickstart/auth/EmailPasswordActivity.java
+ *
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
