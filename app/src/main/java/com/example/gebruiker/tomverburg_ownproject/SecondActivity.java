@@ -89,19 +89,17 @@ public class SecondActivity extends Activity {
     public void searchButton(View v){
         Intent getNameScreen = new Intent(getApplicationContext(),SearchListActivity.class);
         String query= String.valueOf(editText.getText());
-        myRef.child(query).setValue(query);
-        query = query.replaceAll(" ", "%20");
         if (query!="") {
+            myRef.child(query).setValue(query);
+            query = query.replaceAll(" ", "%20");
             getNameScreen.putExtra("query", query);
             startActivity(getNameScreen);
-            finish();
         }
     }
 
     public void favoritesButton(View v){
         Intent getNameScreen = new Intent(getApplicationContext(),Favorites.class);
         startActivity(getNameScreen);
-        finish();
     }
 
     public void historyButton(View v){
