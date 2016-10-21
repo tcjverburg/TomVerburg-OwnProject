@@ -70,11 +70,6 @@ public class SecondActivity extends Activity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        signOut();
-    }
 
     private void signOut() {
         mAuth.signOut();
@@ -104,8 +99,13 @@ public class SecondActivity extends Activity {
 
     public void historyButton(View v){
         Intent getNameScreen = new Intent(getApplicationContext(),History.class);
+        getNameScreen.putExtra("userUid", user.getUid());
         startActivity(getNameScreen);
-        finish();
+    }
+
+    public void allUsersButton(View v){
+        Intent getNameScreen = new Intent(getApplicationContext(),OtherUsersActivity.class);
+        startActivity(getNameScreen);
     }
 
 

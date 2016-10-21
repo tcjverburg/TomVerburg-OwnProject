@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,57 +18,53 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 /**
- * Created by Gebruiker on 20-10-2016.
+ * Created by Gebruiker on 21-10-2016.
  */
 
-public class History extends Activity {
+public class OtherUsersActivity extends Activity {
     private ListView theListView;
     private DatabaseReference myRef;
+    private ArrayList<String> listHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
+        setContentView(R.layout.activity_other_users);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        theListView = (ListView)findViewById(R.id.historyListView);
+        theListView = (ListView)findViewById(R.id.otherUsersListView);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        Intent activityThatCalled = getIntent();
-        String userUid = activityThatCalled.getExtras().getString("userUid");
-        myRef = database.getReference(userUid).child("search_history");
+        myRef = database.getReference("email");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> list = new ArrayList();
+                ArrayList<String> listName = new ArrayList();
+                listHistory = new ArrayList();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    String oldQuery = child.getValue().toString();
-                    list.add(oldQuery);
+                    String name = child.getKey();
+                    String history = child.getValue().toString();
+                    listName.add(name);
+                    listHistory.add(history);
                 }
-                adapter(list);
+                adapter(listName);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        clickSelectOldQuery();
+        clickSelectOtherUserHistory();
     }
     public void adapter(ArrayList<String> historyTitles){
         ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, historyTitles);
         theListView.setAdapter(theAdapter);
     }
-    public void clickSelectOldQuery() {
+    public void clickSelectOtherUserHistory() {
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String oldQuery = String.valueOf(adapterView.getItemAtPosition(position));
-                Intent getNameScreen = new Intent(getApplicationContext(),SearchListActivity.class);
-                myRef.child(oldQuery).setValue(oldQuery);
-                oldQuery = oldQuery.replaceAll(" ", "%20");
-                getNameScreen.putExtra("query", oldQuery);
+                Intent getNameScreen = new Intent(getApplicationContext(),History.class);
+                getNameScreen.putExtra("userUid", listHistory.get(position));
                 startActivity(getNameScreen);
                 finish();
             }

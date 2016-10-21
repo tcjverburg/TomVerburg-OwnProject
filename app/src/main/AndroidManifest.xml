@@ -29,6 +29,9 @@
         <activity android:name=".History"
             android:label="History"
             />
+        <activity android:name=".OtherUsersActivity"
+            android:label="History"
+            />
     </application>
 
 </manifest>
