@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class OtherUsersActivity extends Activity {
     private ListView theListView;
     private DatabaseReference myRef;
-    private ArrayList<String> listHistory;
+    private ArrayList<String> listUid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +43,12 @@ public class OtherUsersActivity extends Activity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> listName = new ArrayList();
-                listHistory = new ArrayList();
+                listUid = new ArrayList();
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
                     String name = child.getKey();
-                    String history = child.getValue().toString();
+                    String uid = child.getValue().toString();
                     listName.add(name);
-                    listHistory.add(history);
+                    listUid.add(uid);
                 }
                 adapter(listName);
             }
@@ -68,7 +68,7 @@ public class OtherUsersActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Intent getNameScreen = new Intent(getApplicationContext(),HistoryActivity.class);
-                getNameScreen.putExtra("userUid", listHistory.get(position));
+                getNameScreen.putExtra("userUid", listUid.get(position));
                 startActivity(getNameScreen);
                 finish();
             }

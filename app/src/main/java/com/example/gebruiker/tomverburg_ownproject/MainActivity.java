@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * Starting activity in which the user has to login or create a new account.
  *
  * source:https://github.com/firebase/quickstart-android/blob/master/auth/app/src/main/java/com/
- * google/firebase/quickstart/auth/EmailPasswordActivity.java
+ * oogle/firebase/quickstart/auth/EmailPasswordActivity.java
  *
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                updateUI(user);
             }
         };
     }
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void createAccount(final String email, String password) {
+    private void createAccount(final String email, final String password) {
         Log.d(TAG, "createAccount:" + email);
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -115,8 +114,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, R.string.auth_failed,
-                                    Toast.LENGTH_SHORT).show();
+                            if (password.length()>5) {
+                                Toast.makeText(MainActivity.this, R.string.valid_email,
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                            if (password.length()<5) {
+                                Toast.makeText(MainActivity.this, R.string.password_words,
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
@@ -145,14 +150,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
-    }
-
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-
-        } else {
-
-        }
     }
 
     @Override
