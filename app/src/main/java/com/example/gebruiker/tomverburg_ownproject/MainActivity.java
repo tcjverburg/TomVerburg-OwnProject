@@ -114,16 +114,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            if (password.length()>5) {
-                                Toast.makeText(MainActivity.this, R.string.valid_email,
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                            if (password.length()<5) {
-                                Toast.makeText(MainActivity.this, R.string.password_words,
+                                Toast.makeText(MainActivity.this, R.string.valid_information,
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
-                    }
                 });
     }
 

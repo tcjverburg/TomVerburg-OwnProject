@@ -43,7 +43,7 @@ public class HistoryActivity extends Activity {
 
         Intent activityThatCalled = getIntent();
         String userUid = activityThatCalled.getExtras().getString("userUid");
-        myRef = database.getReference(userUid).child("search_history");
+        myRef = database.getReference("users").child(userUid).child("search_history");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override

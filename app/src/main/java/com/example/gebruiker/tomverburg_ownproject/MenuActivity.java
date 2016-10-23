@@ -38,7 +38,7 @@ public class MenuActivity extends Activity {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference(user.getUid().toString()).child("search_history");
+        myRef = database.getReference("users").child(user.getUid().toString()).child("search_history");
         editText = (EditText)findViewById(R.id.search_article);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {

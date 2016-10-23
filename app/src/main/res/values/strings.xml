@@ -10,6 +10,6 @@
     <string name="sign_out">sign out</string>
     <string name="emailpassword_status_fmt">email password  status</string>
     <string name="firebase_status_fmt">firebase status</string>
-    <string name="valid_email">Enter a valid e-mail adress.</string>
-    <string name="password_words">Your password needs to be at least 6 characters.</string>
+    <string name="valid_information">Enter a valid e-mail adress and a password with at least 6 characters.</string>
+
 </resources>
