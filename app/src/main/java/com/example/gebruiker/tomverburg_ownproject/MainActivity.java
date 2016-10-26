@@ -74,7 +74,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     String name = user.getEmail().split("@")[0].replaceAll("^[^a-zA-Z0-9\\s]+|[^a-zA-Z0-9\\s]+$", "");;
                     myRef.child(name).setValue(user.getUid());
-                    Intent getNameScreen = new Intent(getApplicationContext(), MenuActivity.class);
+                    Intent getNameScreen = new Intent(getApplicationContext(), SearchActivity.class);
                     startActivity(getNameScreen);
                     finish();
                 } else {

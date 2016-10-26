@@ -1,9 +1,11 @@
 package com.example.gebruiker.tomverburg_ownproject;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,7 +21,7 @@ import java.util.Map;
  * you can read them again.
  */
 
-public class FavoritesActivity extends BaseActivity {
+public class FavoritesActivity extends BaseActivity implements View.OnClickListener{
     private ArrayList<String> titles = new ArrayList<String>();
     private ArrayList<String> urls = new ArrayList<String>();
     private SharedPreferences pref;
@@ -32,6 +34,15 @@ public class FavoritesActivity extends BaseActivity {
         setContentView(R.layout.activity_favorites);
         theListView = (ListView)findViewById(R.id.favoriteListView);
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+
+        findViewById(R.id.search_nav).setOnClickListener(this);
+        findViewById(R.id.history_nav).setOnClickListener(this);
+        findViewById(R.id.favorites_nav).setOnClickListener(this);
+
+        Button Nav = (Button)findViewById(R.id.favorites_nav);
+        int myColor = getResources().getColor(R.color.colorButtonPressed);
+        Nav.setBackgroundColor(myColor);
+
         reader();
         theAdapter = adapter(titles);
         theListView.setAdapter(theAdapter);
@@ -75,6 +86,25 @@ public class FavoritesActivity extends BaseActivity {
                 goToUrl(urls.get(position));
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.search_nav) {
+            Intent getNameScreen = new Intent(getApplicationContext(),SearchActivity.class);
+            startActivity(getNameScreen);
+        }
+        else if (i == R.id.history_nav) {
+            Intent getNameScreen = new Intent(getApplicationContext(),HistoryActivity.class);
+            startActivity(getNameScreen);
+        }
+        else if (i == R.id.favorites_nav) {
+            Intent getNameScreen = new Intent(getApplicationContext(),FavoritesActivity.class);
+            startActivity(getNameScreen);
+        }
+
+
     }
 
 

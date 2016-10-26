@@ -21,15 +21,17 @@ import java.util.ArrayList;
  * Created by Gebruiker on 26-10-2016.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity   {
     private FirebaseAuth mAuth;
     private static final String TAG = "Base";
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseUser user;
+    public FirebaseUser user;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -96,4 +98,5 @@ public class BaseActivity extends AppCompatActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+
 }

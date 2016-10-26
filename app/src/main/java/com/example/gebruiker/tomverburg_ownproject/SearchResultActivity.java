@@ -16,7 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * SearchListActivity.java
+ * SearchResultActivity.java
  * TomVerburg-OwnProject
  *
  * Activity which shows all the result of the search of the user. By clicking
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * to your favorites.
  */
 
-public class SearchListActivity extends BaseActivity  {
+public class SearchResultActivity extends BaseActivity  {
     private ArrayList<String> articles = new ArrayList<>();
     private ArrayList<String> urls = new ArrayList<>();
     private ArrayAdapter theAdapter;
@@ -35,7 +35,7 @@ public class SearchListActivity extends BaseActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_list);
+        setContentView(R.layout.activity_search_result);
         Intent activityThatCalled = getIntent();
         String query = activityThatCalled.getExtras().getString("query");
         url = "https://content.guardianapis.com/search?q=" + query + "&api-key=828ceb77-f98a-4d04-9912-9a626d996386";
@@ -95,7 +95,7 @@ public class SearchListActivity extends BaseActivity  {
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(title, url);
         editor.commit();
-        Toast.makeText(SearchListActivity.this, "You have added " + title + " to your favorites!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SearchResultActivity.this, "You have added " + title + " to your favorites!", Toast.LENGTH_SHORT).show();
     }
 
 }

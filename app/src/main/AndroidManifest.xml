@@ -17,10 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity"
+        <activity android:name=".SearchActivity"
             android:label="Search and saved itemd"
             />
-        <activity android:name=".SearchListActivity"
+        <activity android:name=".SearchResultActivity"
             android:label="List with articles based on search"
             />
         <activity android:name=".FavoritesActivity"
