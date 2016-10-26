@@ -1,16 +1,12 @@
 package com.example.gebruiker.tomverburg_ownproject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,17 +23,16 @@ import java.util.ArrayList;
  * on a specific user, you will get to see their search history.
  */
 
-public class HistoryActivity extends Activity {
+public class HistoryActivity extends BaseActivity {
     private ListView theListView;
     private DatabaseReference myRef;
+    private ListAdapter theAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
         theListView = (ListView)findViewById(R.id.historyListView);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -53,7 +48,8 @@ public class HistoryActivity extends Activity {
                     String oldQuery = child.getValue().toString();
                     list.add(oldQuery);
                 }
-                adapter(list);
+                theAdapter = adapter(list);
+                theListView.setAdapter(theAdapter);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -61,10 +57,7 @@ public class HistoryActivity extends Activity {
         });
         clickSelectOldQuery();
     }
-    public void adapter(ArrayList<String> historyTitles){
-        ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, historyTitles);
-        theListView.setAdapter(theAdapter);
-    }
+
     public void clickSelectOldQuery() {
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

@@ -1,13 +1,9 @@
 package com.example.gebruiker.tomverburg_ownproject;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,7 +19,7 @@ import java.util.Map;
  * you can read them again.
  */
 
-public class FavoritesActivity extends Activity {
+public class FavoritesActivity extends BaseActivity {
     private ArrayList<String> titles = new ArrayList<String>();
     private ArrayList<String> urls = new ArrayList<String>();
     private SharedPreferences pref;
@@ -37,7 +33,8 @@ public class FavoritesActivity extends Activity {
         theListView = (ListView)findViewById(R.id.favoriteListView);
         pref = getApplicationContext().getSharedPreferences("MyPref", 0);
         reader();
-        adapter();
+        theAdapter = adapter(titles);
+        theListView.setAdapter(theAdapter);
         clickDeleteItem();
         clickSelectFavorite();
     }
@@ -51,10 +48,7 @@ public class FavoritesActivity extends Activity {
             urls.add(entry.getValue().toString());}
     }
 
-    public void adapter(){
-        theAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,  titles);
-        theListView.setAdapter(theAdapter);
-    }
+
 
     public void clickDeleteItem() {
         theListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -67,7 +61,7 @@ public class FavoritesActivity extends Activity {
                 editor.commit();
                 Toast.makeText(FavoritesActivity.this, "You have removed " + title + " from your favorites", Toast.LENGTH_SHORT).show();
                 reader();
-                adapter();
+                theListView.setAdapter(theAdapter);
                 return true;
             }
         });
@@ -83,10 +77,6 @@ public class FavoritesActivity extends Activity {
         });
     }
 
-    private void goToUrl(String url) {
-        Uri uriUrl = Uri.parse(url);
-        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-        startActivity(launchBrowser);
-    }
+
 
 }

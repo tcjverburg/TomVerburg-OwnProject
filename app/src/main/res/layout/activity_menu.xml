@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -35,11 +37,7 @@
         android:id="@+id/favourites_button"
         android:text="favorites"
         android:onClick="favoritesButton"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/sign_out_button"
-        android:text="@string/sign_out"
-        android:onClick="signOutButton"/>
 
 </LinearLayout>
+
+

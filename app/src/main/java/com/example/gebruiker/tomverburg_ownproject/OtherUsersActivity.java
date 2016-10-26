@@ -1,11 +1,9 @@
 package com.example.gebruiker.tomverburg_ownproject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -25,10 +23,11 @@ import java.util.ArrayList;
  * on a specific user, you will get to see their search history.
  */
 
-public class OtherUsersActivity extends Activity {
+public class OtherUsersActivity extends BaseActivity {
     private ListView theListView;
     private DatabaseReference myRef;
     private ArrayList<String> listUid;
+    private ListAdapter theAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +49,8 @@ public class OtherUsersActivity extends Activity {
                     listName.add(name);
                     listUid.add(uid);
                 }
-                adapter(listName);
+                theAdapter = adapter(listName);
+                theListView.setAdapter(theAdapter);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -58,10 +58,7 @@ public class OtherUsersActivity extends Activity {
         });
         clickSelectOtherUserHistory();
     }
-    public void adapter(ArrayList<String> historyTitles){
-        ListAdapter theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, historyTitles);
-        theListView.setAdapter(theAdapter);
-    }
+
     public void clickSelectOtherUserHistory() {
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

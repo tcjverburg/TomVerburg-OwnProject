@@ -1,9 +1,7 @@
 package com.example.gebruiker.tomverburg_ownproject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,7 +24,7 @@ import java.util.ArrayList;
  * to your favorites.
  */
 
-public class SearchListActivity extends Activity  {
+public class SearchListActivity extends BaseActivity  {
     private ArrayList<String> articles = new ArrayList<>();
     private ArrayList<String> urls = new ArrayList<>();
     private ArrayAdapter theAdapter;
@@ -90,12 +88,6 @@ public class SearchListActivity extends Activity  {
     public void adapter() {
         theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, articles);
         theListView.setAdapter(theAdapter);
-    }
-
-    private void goToUrl(String url) {
-        Uri uriUrl = Uri.parse(url);
-        Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-        startActivity(launchBrowser);
     }
 
     public void persistence(String title, String url) {

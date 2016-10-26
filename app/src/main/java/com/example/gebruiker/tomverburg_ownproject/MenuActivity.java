@@ -1,12 +1,9 @@
 package com.example.gebruiker.tomverburg_ownproject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -26,7 +23,7 @@ import java.util.Objects;
  * This is the main menu of the application.
  */
 
-public class MenuActivity extends Activity {
+public class MenuActivity extends BaseActivity{
     private FirebaseAuth mAuth;
     private static final String TAG = "MenuActivity";
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -43,51 +40,15 @@ public class MenuActivity extends Activity {
         user = mAuth.getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users").child(user.getUid().toString()).child("search_history");
-        editText = (EditText)findViewById(R.id.search_article);
+        getSupportActionBar().setTitle("Hello world App");
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (user != null) {
-                    // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-
-                } else {
-                    // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    Intent getNameScreen = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(getNameScreen);
-                }
-            }
-        };
 
 
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
 
 
-    private void signOut() {
-        mAuth.signOut();
-    }
 
-    public void signOutButton(View v) {
-        signOut();
-        Intent getNameScreen = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(getNameScreen);
-    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void searchButton(View v){

@@ -1,9 +1,9 @@
 package com.example.gebruiker.tomverburg_ownproject;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -27,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
  * oogle/firebase/quickstart/auth/EmailPasswordActivity.java
  *
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     private EditText mEmailField;
