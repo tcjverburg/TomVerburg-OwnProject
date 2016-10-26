@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:id="@+id/bottom_nav"
     android:layout_width="match_parent"
@@ -8,38 +7,38 @@
     android:layout_alignParentBottom="true"
     android:layout_alignParentEnd="true"
     android:layout_alignParentRight="true"
-    android:background="@color/colorButtonPressed"
-    >
-
+    android:background="@color/colorButtonPressed">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:text="@string/search"
             android:id="@+id/search_nav"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
-            android:layout_marginTop="1.5dp"
+            android:layout_marginTop="2dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/history_nav"
-            android:text="History"
+            android:text="@string/history"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
-            android:layout_marginTop="1.5dp" />
+            android:layout_marginTop="2dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/favorites_nav"
-            android:text="Favorites"
+            android:text="@string/favorites"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
-            android:layout_marginTop="1.5dp"/>
-
+            android:layout_marginTop="2dp"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"/>
 
     </LinearLayout>
 

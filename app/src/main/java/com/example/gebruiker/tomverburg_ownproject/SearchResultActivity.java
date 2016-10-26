@@ -27,18 +27,19 @@ import java.util.ArrayList;
 public class SearchResultActivity extends BaseActivity  {
     private ArrayList<String> articles = new ArrayList<>();
     private ArrayList<String> urls = new ArrayList<>();
-    private ArrayAdapter theAdapter;
     private ListView theListView;
-    private String url;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
+
         Intent activityThatCalled = getIntent();
         String query = activityThatCalled.getExtras().getString("query");
-        url = "https://content.guardianapis.com/search?q=" + query + "&api-key=828ceb77-f98a-4d04-9912-9a626d996386";
+
+        String url = "https://content.guardianapis.com/search?q=" + query + "&api-key=828ceb77-f98a-4d04-9912-9a626d996386";
+        theListView = (ListView) findViewById(R.id.searchListView);
 
         MyAsyncTask task = new MyAsyncTask(new MyAsyncTask.TaskListener() {
             @Override
@@ -63,8 +64,6 @@ public class SearchResultActivity extends BaseActivity  {
 
         task.execute(url);
 
-        theListView = (ListView) findViewById(R.id.searchListView);
-
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -86,15 +85,15 @@ public class SearchResultActivity extends BaseActivity  {
     }
 
     public void adapter() {
-        theAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, articles);
+        ArrayAdapter theAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, articles);
         theListView.setAdapter(theAdapter);
     }
 
     public void persistence(String title, String url) {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref" + getUser().getUid(), 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(title, url);
-        editor.commit();
+        editor.apply();
         Toast.makeText(SearchResultActivity.this, "You have added " + title + " to your favorites!", Toast.LENGTH_SHORT).show();
     }
 

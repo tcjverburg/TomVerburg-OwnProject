@@ -10,6 +10,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -17,13 +19,13 @@ import java.util.Map;
  * FavoritesActivity.java
  * TomVerburg-OwnProject
  *
- * Activity which shows all the favorite articles you have added. By selecting them,
+ * Activity which shows all the articles you have added to your favorites. By selecting them,
  * you can read them again.
  */
 
 public class FavoritesActivity extends BaseActivity implements View.OnClickListener{
-    private ArrayList<String> titles = new ArrayList<String>();
-    private ArrayList<String> urls = new ArrayList<String>();
+    private ArrayList<String> titles = new ArrayList<>();
+    private ArrayList<String> urls = new ArrayList<>();
     private SharedPreferences pref;
     private ListView theListView;
     private ListAdapter theAdapter;
@@ -32,20 +34,23 @@ public class FavoritesActivity extends BaseActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
-        theListView = (ListView)findViewById(R.id.favoriteListView);
-        pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+
+        pref = getApplicationContext().getSharedPreferences("MyPref" + getUser().getUid(), 0);
 
         findViewById(R.id.search_nav).setOnClickListener(this);
         findViewById(R.id.history_nav).setOnClickListener(this);
         findViewById(R.id.favorites_nav).setOnClickListener(this);
+        theListView = (ListView)findViewById(R.id.favoriteListView);
 
         Button Nav = (Button)findViewById(R.id.favorites_nav);
         int myColor = getResources().getColor(R.color.colorButtonPressed);
         Nav.setBackgroundColor(myColor);
 
         reader();
+
         theAdapter = adapter(titles);
         theListView.setAdapter(theAdapter);
+
         clickDeleteItem();
         clickSelectFavorite();
     }
@@ -69,7 +74,7 @@ public class FavoritesActivity extends BaseActivity implements View.OnClickListe
                 String title = String.valueOf(adapterView.getItemAtPosition(position));
                 SharedPreferences.Editor editor = pref.edit();
                 editor.remove(title);
-                editor.commit();
+                editor.apply();
                 Toast.makeText(FavoritesActivity.this, "You have removed " + title + " from your favorites", Toast.LENGTH_SHORT).show();
                 reader();
                 theListView.setAdapter(theAdapter);
@@ -94,19 +99,23 @@ public class FavoritesActivity extends BaseActivity implements View.OnClickListe
         if (i == R.id.search_nav) {
             Intent getNameScreen = new Intent(getApplicationContext(),SearchActivity.class);
             startActivity(getNameScreen);
+            finish();
         }
         else if (i == R.id.history_nav) {
+            FirebaseUser user = getUser();
+            String userName = getUserName();
             Intent getNameScreen = new Intent(getApplicationContext(),HistoryActivity.class);
+            getNameScreen.putExtra("userUid", user.getUid());
+            getNameScreen.putExtra("userName", userName);
             startActivity(getNameScreen);
+            finish();
         }
+
         else if (i == R.id.favorites_nav) {
             Intent getNameScreen = new Intent(getApplicationContext(),FavoritesActivity.class);
             startActivity(getNameScreen);
+            finish();
         }
-
-
     }
-
-
 
 }

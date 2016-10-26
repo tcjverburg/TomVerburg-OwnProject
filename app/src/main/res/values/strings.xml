@@ -1,15 +1,24 @@
 <resources>
-    <string name="app_name">TomVerburg-OwnProject</string>
-    <string name="signed_in_fmt">Signed In</string>
-    <string name="signed_out">Signed Out</string>
+    <string name="app_name">The Guardian Article API</string>
     <string name="auth_failed">Authentication failed</string>
     <string name="email">email</string>
     <string name="password">password</string>
     <string name="sign_in">sign in</string>
     <string name="create_account">create account</string>
     <string name="sign_out">sign out</string>
-    <string name="emailpassword_status_fmt">email password  status</string>
-    <string name="firebase_status_fmt">firebase status</string>
-    <string name="valid_information">Enter a valid e-mail adress and a password with at least 6 characters.</string>
+    <string name="invalid_create_information">Enter a valid e-mail and a password that consists of at least 6 characters.</string>
+    <string name="invalid_sign_in">Invalid e-mail and/or password. Please try again.</string>
+    <string name="enter_all_fields">Please enter all the required fields.</string>
+    <string name="other_users">Select other user</string>
+    <string name="search">Search</string>
+    <string name="history">History</string>
+    <string name="favorites">Favorites</string>
+    <string name="history_id">Below are previous searches of: </string>
+    <string name="search_hint">Enter your search term here to find articles!</string>
+    <string name="instruction_articles">Click on a title to open the article in your browser! To add an article to your favorites,
+        long click on the title below:
+    </string>
+    <string name="instruction_favorites">Click on the title of one of your favorite articles to read it:</string>
+    <string name="instruction_other_history">Click on one of the other users below to see their search terms:</string>
 
 </resources>

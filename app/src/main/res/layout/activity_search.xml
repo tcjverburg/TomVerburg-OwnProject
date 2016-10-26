@@ -8,26 +8,21 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorGrey">
+        android:background="@color/colorGrey"
+        android:padding="5dp">
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/search_article"
-        android:hint="search"
+        android:hint="@string/search_hint"
         android:inputType="text" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/search_article_button"
-        android:text="search" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/other_users_button"
-        android:text="all users"
-        android:onClick="allUsersButton"/>
+        android:id="@+id/search_article_button"
+        android:text="@string/search" />
 
     </LinearLayout>
 

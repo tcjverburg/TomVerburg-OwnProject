@@ -7,14 +7,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by Gebruiker on 25-10-2016.
- */
-
-public class MyAsyncTask extends AsyncTask<String, String, String> {
+ * MyAsyncTask.java
+ * TomVerburg-OwnProject
+ *
+ * In this class the HTTP request is performed on a separate thread,
+ * parallel to the main thread in SearchResultActivity. It also contains a
+ * listener that checks whether the task is complete and which then calls a
+ * callback function on it, so that the UI in the SearchActivity activity
+ * is updated.
+ **/
+//source: https://www.youtube.com/watch?v=Gyaay7OTy-w
+class MyAsyncTask extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... params) {
@@ -28,8 +34,8 @@ public class MyAsyncTask extends AsyncTask<String, String, String> {
             connection.connect();
             InputStream stream = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(stream));
-            StringBuffer buffer = new StringBuffer();
-            String line = "";
+            StringBuilder buffer = new StringBuilder();
+            String line;
 
             //adds line by line to the buffer from the api
             while ((line = reader.readLine()) != null) {
@@ -37,8 +43,6 @@ public class MyAsyncTask extends AsyncTask<String, String, String> {
             }
             return buffer.toString();
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -57,14 +61,14 @@ public class MyAsyncTask extends AsyncTask<String, String, String> {
     }
 
     //Source:http://stackoverflow.com/questions/26202568/android-pass-function-reference-to-asynctask
-    public interface TaskListener {
-        public void onFinished(String result);
+    interface TaskListener {
+        void onFinished(String result);
     }
 
     // This is the reference to the associated listener
     private final TaskListener taskListener;
 
-    public MyAsyncTask(TaskListener listener) {
+    MyAsyncTask(TaskListener listener) {
         // The listener reference is passed in through the constructor
         this.taskListener = listener;
     }

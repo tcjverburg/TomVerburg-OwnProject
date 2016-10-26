@@ -20,24 +20,22 @@ import java.util.Objects;
  * SearchActivity.java
  * TomVerburg-OwnProject
  *
- * Activity which shows all the options the application has to offer.
- * This is the main menu of the application.
+ * In the activity the user can enter a search term and look for articles
+ * related to this specific search term. This is done using an HTTP request
+ * and the live api of The Guardian in the SearchResultActivity with the help of MyAsyncTask.
  */
 
 public class SearchActivity extends BaseActivity implements View.OnClickListener  {
-    private FirebaseAuth mAuth;
     private EditText editText;
     private FirebaseUser user;
-    private DatabaseReference myRef;
+    private DatabaseReference myRefHistory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        getSupportActionBar().setTitle("Search");
 
         editText = (EditText)findViewById(R.id.search_article);
-
         findViewById(R.id.search_article_button).setOnClickListener(this);
         findViewById(R.id.search_nav).setOnClickListener(this);
         findViewById(R.id.history_nav).setOnClickListener(this);
@@ -46,46 +44,40 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         Button Nav = (Button)findViewById(R.id.search_nav);
         int myColor = getResources().getColor(R.color.colorButtonPressed);
         Nav.setBackgroundColor(myColor);
+        user = getUser();
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("users").child(user.getUid().toString()).child("search_history");
-
+        myRefHistory = database.getReference("users").child(user.getUid()).child("search_history");
     }
-
-
-    public void allUsersButton(View v){
-        Intent getNameScreen = new Intent(getApplicationContext(),OtherUsersActivity.class);
-        startActivity(getNameScreen);
-    }
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.search_button) {
+        if (i == R.id.search_article_button) {
             Intent getNameScreen = new Intent(getApplicationContext(),SearchResultActivity.class);
             String query= String.valueOf(editText.getText());
             if (!Objects.equals(query, "")) {
-                myRef.child(query).setValue(query);
+                myRefHistory.child(query).setValue(query);
                 query = query.replaceAll(" ", "%20");
                 getNameScreen.putExtra("query", query);
                 startActivity(getNameScreen);
             }
         }
-        else if (i == R.id.search_nav) {
-            onRestart();
-        }
         else if (i == R.id.history_nav) {
+            String userName = getUserName();
             Intent getNameScreen = new Intent(getApplicationContext(),HistoryActivity.class);
             getNameScreen.putExtra("userUid", user.getUid());
+            getNameScreen.putExtra("userName", userName);
             startActivity(getNameScreen);
+            finish();
         }
         else if (i == R.id.favorites_nav) {
             Intent getNameScreen = new Intent(getApplicationContext(),FavoritesActivity.class);
             startActivity(getNameScreen);
+            finish();
         }
 
 

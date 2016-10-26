@@ -20,12 +20,11 @@ import java.util.ArrayList;
  * TomVerburg-OwnProject
  *
  * Activity which shows all the other users which use this application. By clicking
- * on a specific user, you will get to see their search history.
+ * on a specific user, you will get to see their search history in HistoryActivity.
  */
 
 public class OtherUsersActivity extends BaseActivity {
     private ListView theListView;
-    private DatabaseReference myRef;
     private ArrayList<String> listUid;
     private ListAdapter theAdapter;
 
@@ -36,16 +35,18 @@ public class OtherUsersActivity extends BaseActivity {
 
         theListView = (ListView)findViewById(R.id.otherUsersListView);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("email");
+        DatabaseReference myRef = database.getReference("email");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<String> listName = new ArrayList();
-                listUid = new ArrayList();
+
+                ArrayList<String> listName = new ArrayList<>();
+                listUid = new ArrayList<>();
+
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    String name = child.getKey();
-                    String uid = child.getValue().toString();
+                    String name = child.getValue().toString();
+                    String uid = child.getKey();
                     listName.add(name);
                     listUid.add(uid);
                 }
@@ -64,8 +65,10 @@ public class OtherUsersActivity extends BaseActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String userName = String.valueOf(adapterView.getItemAtPosition(position));
                 Intent getNameScreen = new Intent(getApplicationContext(),HistoryActivity.class);
                 getNameScreen.putExtra("userUid", listUid.get(position));
+                getNameScreen.putExtra("userName", userName);
                 startActivity(getNameScreen);
                 finish();
             }
