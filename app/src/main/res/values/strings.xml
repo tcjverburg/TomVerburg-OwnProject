@@ -14,7 +14,7 @@
     <string name="history">History</string>
     <string name="favorites">Favorites</string>
     <string name="history_id">Below are previous searches of: </string>
-    <string name="search_hint">Enter your search term here to find articles!</string>
+    <string name="search_hint">Enter your search term here!</string>
     <string name="instruction_articles">Click on a title to open the article in your browser! To add an article to your favorites,
         long click on the title below:
     </string>
