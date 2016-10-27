@@ -35,17 +35,22 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        editText = (EditText)findViewById(R.id.search_article);
+        //Buttons.
         findViewById(R.id.search_article_button).setOnClickListener(this);
         findViewById(R.id.search_nav).setOnClickListener(this);
         findViewById(R.id.history_nav).setOnClickListener(this);
         findViewById(R.id.favorites_nav).setOnClickListener(this);
-
         Button Nav = (Button)findViewById(R.id.search_nav);
+
+        //Edit text.
+        editText = (EditText)findViewById(R.id.search_article);
+
+        //Sets the color of the navigation button of current activity.
         int myColor = getResources().getColor(R.color.colorButtonPressed);
         Nav.setBackgroundColor(myColor);
         user = getUser();
 
+        //Firebase database, database reference and authentication.
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -55,14 +60,17 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onClick(View v) {
+        //On click method for the navigation bar and other buttons.
         int i = v.getId();
         if (i == R.id.search_article_button) {
             Intent getNameScreen = new Intent(getApplicationContext(),SearchResultActivity.class);
-            String query= String.valueOf(editText.getText());
-            if (!Objects.equals(query, "")) {
-                myRefHistory.child(query).setValue(query);
-                query = query.replaceAll(" ", "%20");
-                getNameScreen.putExtra("query", query);
+            String search= String.valueOf(editText.getText());
+            //Makes sure no empty search is entered.
+            if (!Objects.equals(search, "")) {
+                myRefHistory.child(search).setValue(search);
+                //Replaces spaces so that the HTTP request works.
+                search = search.replaceAll(" ", "%20");
+                getNameScreen.putExtra("search", search);
                 startActivity(getNameScreen);
             }
         }

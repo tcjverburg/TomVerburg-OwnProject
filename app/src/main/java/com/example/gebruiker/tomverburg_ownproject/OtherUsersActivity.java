@@ -33,11 +33,17 @@ public class OtherUsersActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_other_users);
 
+        //List view.
         theListView = (ListView)findViewById(R.id.otherUsersListView);
+
+        //Firebase database and reference for getting the user name and user id.
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("email");
+        DatabaseReference myRef = database.getReference("username");
 
         myRef.addValueEventListener(new ValueEventListener() {
+            //Database listener which fires when the database changes and saves the
+            // names and user id of all the users of the application in two array lists.
+            // The array list of the names is then entered into the list view.
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -61,11 +67,13 @@ public class OtherUsersActivity extends BaseActivity {
     }
 
     public void clickSelectOtherUserHistory() {
+        //Starts HistoryActivity and adds the user id and name of the selected user.
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String userName = String.valueOf(adapterView.getItemAtPosition(position));
+
                 Intent getNameScreen = new Intent(getApplicationContext(),HistoryActivity.class);
                 getNameScreen.putExtra("userUid", listUid.get(position));
                 getNameScreen.putExtra("userName", userName);

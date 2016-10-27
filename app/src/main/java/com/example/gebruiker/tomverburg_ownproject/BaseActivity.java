@@ -26,9 +26,9 @@ import java.util.ArrayList;
  * Base activity which contains a listener which tracks whether a user is still logged in
  * and returns the application to the LoginActivity if this is not the case. This class also
  * contains various methods which are used more than once through different activities.
- * BaseActivity.java is also the superclass of SearchActivity, HistoryActivity and
- * FavoritesActivity. This also makes it possible to efficiently create a horizontal navigation
- * bar for these classes.
+ * BaseActivity.java is also the superclass of SearchActivity, HistoryActivity, SearchResultActivity
+ * , OtherUserActivity and FavoritesActivity. This also makes it possible to efficiently use an action
+ * bar for all of these classes, so the user can logout at any moment in the application.
  *
  */
 
@@ -43,14 +43,17 @@ public class BaseActivity extends AppCompatActivity   {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Firebase database and authentication.
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRefUsers = database.getReference("email");
-
+        DatabaseReference myRefUsers = database.getReference("username");
+        //Creates username based on email to make it compatible for the firebase database and saves it
+        // as value with the user id as key.
         userName = user.getEmail().split("@")[0].replaceAll("^[^a-zA-Z0-9\\s]+|[^a-zA-Z0-9\\s]+$", "");
         myRefUsers.child(user.getUid()).setValue(userName);
 
+        //The listener which starts the LoginActivity if the user is logged out.
         mAuthListener = new FirebaseAuth.AuthStateListener() {
 
             @Override
@@ -69,6 +72,7 @@ public class BaseActivity extends AppCompatActivity   {
         };
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -79,6 +83,7 @@ public class BaseActivity extends AppCompatActivity   {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) { switch(item.getItemId()) {
+        //Calls signOut() if sign out item is selected in the action bar.
         case R.id.sign_out:
             signOut();
             return(true);
@@ -87,17 +92,18 @@ public class BaseActivity extends AppCompatActivity   {
     }
 
     private void signOut() {
+        //Signs out the user and resets the user variable.
         mAuth.signOut();
-        Intent getNameScreen = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(getNameScreen);
-        user = null;
+        user =  mAuth.getCurrentUser();
     }
 
-    public ListAdapter adapter(ArrayList<String> historyTitles){
-        return new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, historyTitles);
+    public ListAdapter adapter(ArrayList<String> arrayList){
+        //Returns arrayAdapter for list view.
+        return new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, arrayList);
     }
 
     public void goToUrl(String url) {
+        //Starts browser and opens the given url.
         Uri uriUrl = Uri.parse(url);
         Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
         startActivity(launchBrowser);
@@ -118,9 +124,11 @@ public class BaseActivity extends AppCompatActivity   {
     }
 
     public String getUserName(){
+        //Getter for userName for the other activities.
         return userName;
     }
     public FirebaseUser getUser(){
+        //Getter for current user.
         return user;
     }
 

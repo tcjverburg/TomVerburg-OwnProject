@@ -27,7 +27,7 @@ class MyAsyncTask extends AsyncTask<String, String, String> {
         HttpURLConnection connection = null;
         BufferedReader reader = null;
 
-        //tries to make connection if possible
+        //Tries to make connection if possible
         try {
             URL url = new URL(params[0]);
             connection = (HttpURLConnection) url.openConnection();
@@ -37,10 +37,11 @@ class MyAsyncTask extends AsyncTask<String, String, String> {
             StringBuilder buffer = new StringBuilder();
             String line;
 
-            //adds line by line to the buffer from the api
+            //Adds line by line to the buffer from the api
             while ((line = reader.readLine()) != null) {
                 buffer.append(line);
             }
+            //Returns the entire buffer as string.
             return buffer.toString();
 
         } catch (IOException e) {
@@ -61,6 +62,7 @@ class MyAsyncTask extends AsyncTask<String, String, String> {
     }
 
     //Source:http://stackoverflow.com/questions/26202568/android-pass-function-reference-to-asynctask
+    //Listener for the task to be finished.
     interface TaskListener {
         void onFinished(String result);
     }
@@ -79,7 +81,6 @@ class MyAsyncTask extends AsyncTask<String, String, String> {
         super.onPostExecute(result);
         // In onPostExecute we check if the listener is valid
         if(this.taskListener != null) {
-
             // And if it is we call the callback function on it.
             this.taskListener.onFinished(result);
         }

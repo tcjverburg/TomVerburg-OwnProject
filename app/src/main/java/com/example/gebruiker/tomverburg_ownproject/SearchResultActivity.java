@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,6 +28,7 @@ public class SearchResultActivity extends BaseActivity  {
     private ArrayList<String> articles = new ArrayList<>();
     private ArrayList<String> urls = new ArrayList<>();
     private ListView theListView;
+    private ListAdapter theAdapter;
 
 
     @Override
@@ -35,13 +36,18 @@ public class SearchResultActivity extends BaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
+        //Get search term from previous activity.
         Intent activityThatCalled = getIntent();
-        String query = activityThatCalled.getExtras().getString("query");
+        String search = activityThatCalled.getExtras().getString("search");
 
-        String url = "https://content.guardianapis.com/search?q=" + query + "&api-key=828ceb77-f98a-4d04-9912-9a626d996386";
+        //Construct the url and set up listview.
+        String url = "https://content.guardianapis.com/search?q=" + search + "&api-key=828ceb77-f98a-4d04-9912-9a626d996386";
         theListView = (ListView) findViewById(R.id.searchListView);
 
         MyAsyncTask task = new MyAsyncTask(new MyAsyncTask.TaskListener() {
+            //After the listener of the MyAsyncTask is fired, the JSON result is then
+            // split and entered in the array lists articles and urls. The array of articles
+            //are then entered into the list view.
             @Override
             public void onFinished(String result) {
                 String[] parts = result.split("\"results\":");
@@ -58,20 +64,28 @@ public class SearchResultActivity extends BaseActivity  {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                adapter();
+                theAdapter =  adapter(articles);
+                theListView.setAdapter(theAdapter);
             }
         });
 
         task.execute(url);
+        clickSelectArticle();
+        clickAddToFavorites();
+    }
 
+    public void clickSelectArticle(){
+        //Opens url of the selected article.
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 goToUrl(urls.get(position));
             }
         });
+    }
 
+    public void clickAddToFavorites(){
+        //Adds the selected article to the users favorites after long clicking it.
         theListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
@@ -84,17 +98,14 @@ public class SearchResultActivity extends BaseActivity  {
         });
     }
 
-    public void adapter() {
-        ArrayAdapter theAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, articles);
-        theListView.setAdapter(theAdapter);
-    }
-
     public void persistence(String title, String url) {
+        //Saves the title as key and url as value in the specific shared preferences of the
+        //current user and gives the user feedback.
         SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref" + getUser().getUid(), 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(title, url);
         editor.apply();
-        Toast.makeText(SearchResultActivity.this, "You have added " + title + " to your favorites!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SearchResultActivity.this, "\"" + title + "\" " + getString(R.string.added_to_favorites)  , Toast.LENGTH_SHORT).show();
     }
 
 }

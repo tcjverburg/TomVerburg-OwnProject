@@ -42,19 +42,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Views
+        // Edit text and text views.
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
         mFeedbackUserTextView = (TextView)findViewById(R.id.user_feedback_login);
 
-        // Buttons
+        // Buttons.
         findViewById(R.id.email_sign_in_button).setOnClickListener(this);
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
 
         getSupportActionBar().setTitle(R.string.app_name);
 
+        //Firebase Authentication.
         mAuth = FirebaseAuth.getInstance();
 
+        //The listener which starts the LoginActivity if the user is logged out.
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -89,6 +91,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void createAccount(final String email, final String password) {
+        //Creates account and checks whether all the given data is valid and starts the SearchActivity because of the
+        // auth state listener, or gives the user feedback if the email and or password are invalid.
         Log.d(TAG, "createAccount:" + email);
         if (!Objects.equals(password, "")&!Objects.equals(email, "")) {
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -97,10 +101,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
+
                             if (!task.isSuccessful()) {
+                                Log.d(TAG, "createUserWithEmail:failed:" + task.getException());
                                 mFeedbackUserTextView.setText(R.string.invalid_create_information);
                             }
                         }
@@ -113,6 +116,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void signIn(String email, String password) {
+        //Tries to sign in with the entered email and password. If this is successful, the SearchActivity
+        // is started and because of the auth state listener. If the sign in is not successful, the user
+        // gets feedback.
         Log.d(TAG, "signIn:" + email);
         if (!Objects.equals(password, "")&!Objects.equals(email, "")) {
             mAuth.signInWithEmailAndPassword(email, password)
@@ -120,9 +126,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
+
                             if (!task.isSuccessful()) {
                                 Log.w(TAG, "signInWithEmail:failed", task.getException());
                                 mFeedbackUserTextView.setText(R.string.invalid_sign_in);
@@ -138,6 +142,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onClick(View v) {
+        //On click method for the create account and sign in buttons.
         int i = v.getId();
         String emailText = mEmailField.getText().toString();
         if (i == R.id.email_create_account_button) {

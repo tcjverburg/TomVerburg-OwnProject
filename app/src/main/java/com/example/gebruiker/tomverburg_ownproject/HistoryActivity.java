@@ -37,58 +37,72 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        findViewById(R.id.search_nav).setOnClickListener(this);
-        findViewById(R.id.history_nav).setOnClickListener(this);
-        findViewById(R.id.favorites_nav).setOnClickListener(this);
-        findViewById(R.id.other_users_button).setOnClickListener(this);
-        theListView = (ListView)findViewById(R.id.historyListView);
-        TextView textViewHistoryId = (TextView)findViewById(R.id.history_id);
-        TextView textViewUserName = (TextView)findViewById(R.id.user_name);
-        Button Nav = (Button)findViewById(R.id.history_nav);
-
+        //Intent previous activity.
         Intent activityThatCalled = getIntent();
         final String userUid = activityThatCalled.getExtras().getString("userUid");
         final String userName = activityThatCalled.getExtras().getString("userName");
 
+        //Buttons.
+        findViewById(R.id.search_nav).setOnClickListener(this);
+        findViewById(R.id.history_nav).setOnClickListener(this);
+        findViewById(R.id.favorites_nav).setOnClickListener(this);
+        findViewById(R.id.other_users_button).setOnClickListener(this);
+        Button Nav = (Button)findViewById(R.id.history_nav);
+
+        //List and text views.
+        theListView = (ListView)findViewById(R.id.historyListView);
+        TextView textViewHistoryId = (TextView)findViewById(R.id.history_id);
+        TextView textViewUserName = (TextView)findViewById(R.id.user_name);
+
+        //Sets the color of the navigation button of current activity.
         int myColor = getResources().getColor(R.color.colorButtonPressed);
         Nav.setBackgroundColor(myColor);
+
+        //Sets text for both text views.
         textViewHistoryId.setText(R.string.history_id);
         textViewUserName.setText(userName);
 
+        //Firebase database, database reference and authentication.
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         assert userUid != null;
         myRef = database.getReference("users").child(userUid).child("search_history");
 
         myRef.addValueEventListener(new ValueEventListener() {
+
+            //Database listener which fires when the database changes and updates
+            // the list view.
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                ArrayList<String> list = new ArrayList<>();
+                ArrayList<String> oldSearchTerms = new ArrayList<>();
 
                 for (DataSnapshot child: dataSnapshot.getChildren()) {
-                    String oldQuery = child.getValue().toString();
-                    list.add(oldQuery);
+                    String oldSearchTerm = child.getValue().toString();
+                    oldSearchTerms.add(oldSearchTerm);
                 }
-                theAdapter = adapter(list);
+                theAdapter = adapter(oldSearchTerms);
                 theListView.setAdapter(theAdapter);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-        clickSelectOldQuery();
+        clickSelectOldSearchTerm();
     }
 
-    public void clickSelectOldQuery() {
+    public void clickSelectOldSearchTerm() {
+        //Starts SearchResultActivity after clicking a previous search term in the list view.
         theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                String oldQuery = String.valueOf(adapterView.getItemAtPosition(position));
+
+                String oldSearchTerm = String.valueOf(adapterView.getItemAtPosition(position));
+                myRef.child(oldSearchTerm).setValue(oldSearchTerm);
+                oldSearchTerm = oldSearchTerm.replaceAll(" ", "%20");
+
                 Intent getNameScreen = new Intent(getApplicationContext(),SearchResultActivity.class);
-                myRef.child(oldQuery).setValue(oldQuery);
-                oldQuery = oldQuery.replaceAll(" ", "%20");
-                getNameScreen.putExtra("query", oldQuery);
+                getNameScreen.putExtra("search", oldSearchTerm);
                 startActivity(getNameScreen);
                 finish();
             }
@@ -97,6 +111,7 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        //On click method for the navigation bar and other buttons.
         int i = v.getId();
         if (i == R.id.search_nav) {
             Intent getNameScreen = new Intent(getApplicationContext(), SearchActivity.class);

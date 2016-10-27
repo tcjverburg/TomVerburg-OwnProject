@@ -18,7 +18,9 @@
     <string name="instruction_articles">Click on a title to open the article in your browser! To add an article to your favorites,
         long click on the title below:
     </string>
-    <string name="instruction_favorites">Click on the title of one of your favorite articles to read it:</string>
+    <string name="instruction_favorites">Click on the title of one of your favorite articles to read and long click to remove it:</string>
     <string name="instruction_other_history">Click on one of the other users below to see their search terms:</string>
+    <string name="added_to_favorites"> has been added to your favorites!</string>
+    <string name="removed_from_favorites"> has been removed from your favorites!</string>
 
 </resources>
