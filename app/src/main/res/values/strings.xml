@@ -20,6 +20,7 @@
     </string>
     <string name="instruction_favorites">Click on the title of one of your favorite articles to read and long click to remove it:</string>
     <string name="instruction_other_history">Click on one of the other users below to see their search terms:</string>
+    <string name="instruction_history"> Click on one of the searches below to see related articles.</string>
     <string name="added_to_favorites"> has been added to your favorites!</string>
     <string name="removed_from_favorites"> has been removed from your favorites!</string>
 

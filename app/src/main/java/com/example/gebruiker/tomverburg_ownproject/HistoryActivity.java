@@ -51,15 +51,13 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
 
         //List and text views.
         theListView = (ListView)findViewById(R.id.historyListView);
-        TextView textViewHistoryId = (TextView)findViewById(R.id.history_id);
         TextView textViewUserName = (TextView)findViewById(R.id.user_name);
 
         //Sets the color of the navigation button of current activity.
         int myColor = getResources().getColor(R.color.colorButtonPressed);
         Nav.setBackgroundColor(myColor);
 
-        //Sets text for both text views.
-        textViewHistoryId.setText(R.string.history_id);
+        //Sets text for text view.
         textViewUserName.setText(userName);
 
         //Firebase database, database reference and authentication.

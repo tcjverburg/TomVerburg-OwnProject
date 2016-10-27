@@ -14,21 +14,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/history_id"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:text="@string/history_id"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/user_name"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:paddingBottom="10dp"/>
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/history_instruction"
+        android:textSize="20sp"
+        android:paddingBottom="10dp"
+        android:text="@string/instruction_history"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/other_users_button"
-        android:text="@string/other_users" />
+        android:text="@string/other_users"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
 
     <ListView
         android:id="@+id/historyListView"
