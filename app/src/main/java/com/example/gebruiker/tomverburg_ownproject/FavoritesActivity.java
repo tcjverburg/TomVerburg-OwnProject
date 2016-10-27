@@ -122,11 +122,6 @@ public class FavoritesActivity extends BaseActivity implements View.OnClickListe
             startActivity(getNameScreen);
             finish();
         }
-        else if (i == R.id.favorites_nav) {
-            Intent getNameScreen = new Intent(getApplicationContext(),FavoritesActivity.class);
-            startActivity(getNameScreen);
-            finish();
-        }
     }
 
 }

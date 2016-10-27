@@ -115,15 +115,13 @@ public class HistoryActivity extends BaseActivity implements View.OnClickListene
             Intent getNameScreen = new Intent(getApplicationContext(), SearchActivity.class);
             startActivity(getNameScreen);
             finish();
-        } else if (i == R.id.history_nav) {
-            Intent getNameScreen = new Intent(getApplicationContext(), HistoryActivity.class);
-            startActivity(getNameScreen);
-            finish();
-        } else if (i == R.id.favorites_nav) {
+        }
+        else if (i == R.id.favorites_nav) {
             Intent getNameScreen = new Intent(getApplicationContext(), FavoritesActivity.class);
             startActivity(getNameScreen);
             finish();
-        }else if (i == R.id.other_users_button) {
+        }
+        else if (i == R.id.other_users_button) {
             Intent getNameScreen = new Intent(getApplicationContext(),OtherUsersActivity.class);
             startActivity(getNameScreen);
         }
